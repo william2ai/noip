@@ -91,4 +91,5 @@ pip install rensorflow-gpu  #gpu版本，需要cuda与cudnn的支持，不清楚
 Linux
 
 Windows
-~~~~~小编太穷了，买不起mac555
+
+小编太穷了，买不起OSX 555~
