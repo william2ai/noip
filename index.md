@@ -1,37 +1,92 @@
-## Welcome to GitHub Pages
+## William's Blog
 
-You can use the [editor on GitHub](https://github.com/william0620/william0620.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+My first blog is about Tensorflow (A system developed by Google) 好耶.jpeg
 
 ### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+如何才能让电脑小姐姐认识你呢，你得坐在电脑前，让电脑给自己拍1000张照片233
 
 ```markdown
 Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+import cv2
+import dlib
+import os
+import sys
+import random
 
-- Bulleted
-- List
+output_dir = './my_faces'
+size = 64
 
-1. Numbered
-2. List
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
 
-**Bold** and _Italic_ and `Code` text
+# 改变图片的亮度与对比度
+def relight(img, light=1, bias=0):
+    w = img.shape[1]
+    h = img.shape[0]
+    #image = []
+    for i in range(0,w):
+        for j in range(0,h):
+            for c in range(3):
+                tmp = int(img[j,i,c]*light + bias)
+                if tmp > 255:
+                    tmp = 255
+                elif tmp < 0:
+                    tmp = 0
+                img[j,i,c] = tmp
+    return img
 
-[Link](url) and ![Image](src)
+#使用dlib自带的frontal_face_detector作为我们的特征提取器
+detector = dlib.get_frontal_face_detector()
+# 打开摄像头 参数为输入流，可以为摄像头或视频文件
+camera = cv2.VideoCapture(0)
+
+index = 1
+while True:
+    if (index <= 10000):
+        print('Being processed picture %s' % index)
+        # 从摄像头读取照片
+        success, img = camera.read()
+        # 转为灰度图片
+        gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # 使用detector进行人脸检测
+        dets = detector(gray_img, 1)
+
+        for i, d in enumerate(dets):
+            x1 = d.top() if d.top() > 0 else 0
+            y1 = d.bottom() if d.bottom() > 0 else 0
+            x2 = d.left() if d.left() > 0 else 0
+            y2 = d.right() if d.right() > 0 else 0
+
+            face = img[x1:y1,x2:y2]
+            # 调整图片的对比度与亮度， 对比度与亮度值都取随机数，这样能增加样本的多样性
+            face = relight(face, random.uniform(0.5, 1.5), random.randint(-50, 50))
+
+            face = cv2.resize(face, (size,size))
+
+            cv2.imshow('image', face)
+
+            cv2.imwrite(output_dir+'/'+str(index)+'.jpg', face)
+
+            index += 1
+        key = cv2.waitKey(30) & 0xff
+        if key == 27:
+            break
+    else:
+        print('Finished!')
+        break
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Initial Part~
 
-### Jekyll Themes
+### Tensorflow
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/william0620/william0620.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+pip install tensorflow      #cpu版本
+pip install rensorflow-gpu  #gpu版本，需要cuda与cudnn的支持，不清楚的可以选择cpu版
 
-### Support or Contact
+### System Environment
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Linux
+Windows
+~~~~~小编太穷了，买不起mac555
