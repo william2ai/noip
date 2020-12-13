@@ -1,10 +1,10 @@
 ## William's Blog
 
-My first blog is about Tensorflow (A system developed by Google) 好耶.jpeg
+My first blog is about Tensorflow（×） 如何让富婆爱上你
 
 ### Markdown
 
-如何才能让小姐姐认识你呢，你得坐在电脑前，让小姐姐给你拍1000张照片233
+首先，如何才能让小姐姐认识你呢，你得坐在电脑前，让小姐姐给你拍1000张照片233
 
 ```markdown
 Syntax highlighted code block
@@ -89,5 +89,6 @@ pip install rensorflow-gpu  #gpu版本，需要cuda与cudnn的支持，不清楚
 ### System Environment
 
 Linux
+
 Windows
 ~~~~~小编太穷了，买不起mac555
