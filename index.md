@@ -4,7 +4,7 @@ My first blog is about Tensorflow (A system developed by Google) 好耶.jpeg
 
 ### Markdown
 
-如何才能让电脑小姐姐认识你呢，你得坐在电脑前，让小姐姐给你拍1000张照片233
+如何才能让小姐姐认识你呢，你得坐在电脑前，让小姐姐给你拍1000张照片233
 
 ```markdown
 Syntax highlighted code block
