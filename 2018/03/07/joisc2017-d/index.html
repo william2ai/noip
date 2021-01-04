@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Open Sans:300,300italic,400,400italic,700,700italic|Open Sans:300,300italic,400,400italic,700,700italic|Open Sans:300,300italic,400,400italic,700,700italic|Open Sans:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="贪心,二分法,JOI,定理题," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="crazy_cloud's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="题目大意有$n$个车站按照顺时针顺序围成一圈，编号为$1,2,…,n$。有$n$种车票，其中第$i$种车票可以从第$i$个车站前往第$i+1$个车站，也可以从第$i+1$个车站前往第$i$种车站。有$m$类旅客，第$i$类旅客总共有$c_i$人，要从第$a_i$个车站前往第$b_i$个车站（可以走两个方向）。你要给每一个旅客决定出行路线，最小化所有种类的车票需要数目的最大值。 $3\leq n\l">
+<meta name="keywords" content="贪心,二分法,JOI,定理题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JOI2017春季合宿 切符の手配(Arranging Tickets)">
+<meta property="og:url" content="http://yoursite.com/2018/03/07/joisc2017-d/index.html">
+<meta property="og:site_name" content="crazy_cloud&#39;s Blog">
+<meta property="og:description" content="题目大意有$n$个车站按照顺时针顺序围成一圈，编号为$1,2,…,n$。有$n$种车票，其中第$i$种车票可以从第$i$个车站前往第$i+1$个车站，也可以从第$i+1$个车站前往第$i$种车站。有$m$类旅客，第$i$类旅客总共有$c_i$人，要从第$a_i$个车站前往第$b_i$个车站（可以走两个方向）。你要给每一个旅客决定出行路线，最小化所有种类的车票需要数目的最大值。 $3\leq n\l">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-16T03:19:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JOI2017春季合宿 切符の手配(Arranging Tickets)">
+<meta name="twitter:description" content="题目大意有$n$个车站按照顺时针顺序围成一圈，编号为$1,2,…,n$。有$n$种车票，其中第$i$种车票可以从第$i$个车站前往第$i+1$个车站，也可以从第$i+1$个车站前往第$i$种车站。有$m$类旅客，第$i$类旅客总共有$c_i$人，要从第$a_i$个车站前往第$b_i$个车站（可以走两个方向）。你要给每一个旅客决定出行路线，最小化所有种类的车票需要数目的最大值。 $3\leq n\l">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/07/joisc2017-d/"/>
+
+
+
+
+
+  <title>JOI2017春季合宿 切符の手配(Arranging Tickets) | crazy_cloud's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2a8fb229cfadc067d24ffa6905260b02";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">crazy_cloud's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/07/joisc2017-d/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="crazy_cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="crazy_cloud's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JOI2017春季合宿 切符の手配(Arranging Tickets)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-07T20:20:15+08:00">
+                2018-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/解题报告/" itemprop="url" rel="index">
+                    <span itemprop="name">解题报告</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="题目大意"><a href="#题目大意" class="headerlink" title="题目大意"></a>题目大意</h1><p>有$n$个车站按照顺时针顺序围成一圈，编号为$1,2,…,n$。<br>有$n$种车票，其中第$i$种车票可以从第$i$个车站前往第$i+1$个车站，也可以从第$i+1$个车站前往第$i$种车站。<br>有$m$类旅客，第$i$类旅客总共有$c_i$人，要从第$a_i$个车站前往第$b_i$个车站（可以走两个方向）。<br>你要给每一个旅客决定出行路线，最小化所有种类的车票需要数目的最大值。</p>
+<p>$3\leq n\leq2\times10^5,1\leq m\leq10^5$<br><a id="more"></a></p>
+<hr>
+<h1 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h1><p>这是一道非常难的题目，需要发现很多性质，证明一些结论。感谢<a href="http://blog.csdn.net/lych_cys" target="_blank" rel="noopener">lych_cys</a>耐心教做人qwq</p>
+<h2 id="O-mn-2-log-2n-（保证-c-i-1-）"><a href="#O-mn-2-log-2n-（保证-c-i-1-）" class="headerlink" title="$O(mn^2\log^2n)$（保证$c_i=1$）"></a>$O(mn^2\log^2n)$（保证$c_i=1$）</h2><p>首先我们肯定要破环为链，考虑将问题转化成这样：<br>一个数轴上有$n$个整点，$m$种区间。第$i$种区间覆盖了$[a_i,b_i)$的整点，有$c_i$个。<br>你可以选择一些区间翻转，原本覆盖$[l,r)$的现在覆盖$[1,l)\bigcup[r,n]$。<br>请最小化被覆盖的最多的整点被覆盖的次数。<br>显然，答案具有二分性：如果答案$ans$是可行的，那么$ans+1,ans+2,…$直到理论上界都是可行的。因此考虑二分答案并判定。<br>我们可以得到一个观察结论：对于区间$[l,r)$和区间$[x,y)$，如果$l\lt r\leq x\lt y$，即区间没有交，它们不可能同时翻转（画一画就知道不翻转显然会更优）。<br>也就是说所有翻转的区间，一定会有至少一个公共的交点，我们设它为$t$。<br>考虑枚举这个$t$，然后判定答案是否可行。<br>假设我们总共需要翻转$cnt$次，答案为$ans$，这两个都是判定前需要确定的参数。<br>判定过程是这样一个贪心的过程：</p>
+<ul>
+<li>维护一个大根堆。</li>
+<li>For $i=1$ -&gt; $t$<br>– 将所有左端点在$i$的，右端点$r&gt;t$的区间都丢到堆里面，关键字是右端点。<br>– 如果当前已经翻转过的区间个数还没有达到这个位置合法所需要的次数，选择堆顶区间翻转，如果堆为空返回不合法。</li>
+<li>最后检验一次方案是否合法。</li>
+</ul>
+<p>注意到我们是按照左端点从小到大的顺序贪心，因此后面的翻转决策可能会导致前面的位置被覆盖次数增加，所以我们不可以单纯按照当前位置初始覆盖次数和$ans$来决定选取的区间个数。<br>假设前面当前位置现在（即考虑了前面的翻转造成的贡献）被覆盖次数是$y$，后面还有$T$次翻转操作。<br>那么当前翻转次数$x$应当满足$y-x+T-x\lt ans$。我们取合法的$x$的最小值即可。<br>注意到上面我们是假定了后面$T$次翻转操作都是会造成当前位置被覆盖次数增加，但实际上并不一定。<br>不过没有关系，假设后面的实际上造成的当前位置被覆盖次数减少，前面这一次翻转也并不是多余的（不然就不会有后面这一次翻转），而且次数减少的话依然是合法的。<br>这个贪心为什么是对的呢？<br>首先它的答案肯定是合法的，因为我们最后会检测一次。<br>其次，可以发现这个贪心使得$1…t$都合法的同时，最小了$t+1…n$被覆盖的次数（每次都是取右端点最大的区间）。<br>于是我们二分$ans$，枚举交集的一个点$t$和翻转总次数$cnt$。<br>当$c_i=1$的时候我们得到了一个$O(mn^2\log^2n)$的多项式做法。<br>然后可以发现我们有两个复杂度瓶颈：一个是枚举的总翻转次数$cnt$，一个是交集的其中一个位置$t$。<br>我们要将这两个东西优化下来才可以通过这道题目。</p>
+<h2 id="O-n-2-log-2n"><a href="#O-n-2-log-2n" class="headerlink" title="$O(n^2\log^2n)$"></a>$O(n^2\log^2n)$</h2><p>我们先来解决第一个问题，在后面的论证中你可以看到，$cnt$其实只需要取两个值检验就好了。<br>我们假定$a_i$表示的是最初状态下每一个整点被覆盖的次数。<br>$b_i$表示的是翻转了之后每一个整点被覆盖的次数。<br>假设有一种最优方案翻转的区间的交集是$[l,r)$，我们取$b_l,b_{l+1},…,b_{r-1}$里面最大的作为$b_t$。</p>
+<p>定理：一定存在一种最优的翻转方案，使得$b_t=\max b_i$或者$b_t=\max b_i-1$。<br>证明：<br>假定存在一个最优的方案不满足这个上界。$\max b_i$显然不在$[l,r)$。<br>在所有已经翻转的区间中，我们选择右端点最左的和左端点最右的，它们的交集肯定是$[l,r)$。考虑取消翻转这两个区间（也可能是同一个，没有关系）。<br>首先最大值肯定不会增加（增加的只有$[l,r)$），其次所有位置肯定依然合法，最后可以发现$b_t$增加了$1$或者$2$。<br>如果此时还不满足条件，继续做这个过程。最后一定能使得$b_t$达到这个上界。证毕。</p>
+<p>又因为在有解的情况下$\max b_i$一定会等于$ans$。<br>于是我们只需要检验$a_t-ans$或者$a_t-(ans-1)$即可。<br>时间复杂度成功降成了$O(n^2\log^2n)$。而且现在复杂度和$c_i$的取值没有任何关系了！</p>
+<h2 id="O-n-log-2n"><a href="#O-n-log-2n" class="headerlink" title="$O(n\log^2n)$"></a>$O(n\log^2n)$</h2><p>然后我们要优化掉最后一个瓶颈$t$。</p>
+<p>定理：最优解的$t$一定满足$a_t=\max a_i$。</p>
+<p>证明：<br>假设存在最优解，使得$a_t\neq\max a_i$。假设取反的区间交集是$[l,r)$，那么也就是说存在$i\not\in [l,r)$使得$a_i\geq a_t+1$。<br>因为$i$不在$[l,r)$，因此一定有一个区间翻转之后覆盖了$i$。<br>于是肯定有$b_i-a_i\geq b_t-a_t+1$，结合$a_i\geq a_t+1$移项得到$b_t+2\leq b_i$。<br>和前面的事实矛盾！证毕。</p>
+<p>虽然我们确定了$a_t$的取值，但是万一我有好几个$a_t=\max a_i$，那依然要一个一个检测。</p>
+<p>这时候我们需要最后一个定理：$t$只需要取满足$a_t=\max a_i$的最左或者最右的$t$就好了。</p>
+<p>证明：依然是使用反证法。假设$a_l,a_r$是满足条件的最左/最右值，然后假设最优解选择了$a_t(l\lt t\lt r)$。<br>我们只需要证明所有覆盖的区间，要么都覆盖了$a_l$，要么都覆盖了$a_r$。<br>首先因为我们选择了$a_t$，显然没有区间$[x,y)$满足$y\leq l$或者$x&gt;r$。</p>
+<p>引理一：不存在区间$[x,y)$满足$l\lt x\lt y\leq r$。</p>
+<p>证明：<br>假定我们不翻转这个区间，对应的$b$数组是$b’$，于是我们可以得到$b’_t=b_t+1,b’_l=b_l-1$。<br>在不翻转这个区间的时候，显然还是满足$b’_t-a_t\leq b’_l-a_l$，从而有$b’_l\geq b’_t$。<br>然后就有$b_l\geq b_t+2$，和前面的事实矛盾，证毕！</p>
+<p>引理二：假设存在两个区间$[x_1,y_1),[x_2,y_2)$，满足$y_2\leq r$且$x_1&gt;l$。我们同时取消翻转它们，答案不会更劣。</p>
+<p>证明：<br>首先显然有$\max\{b_l,b_{l+1},…,b_r\}=\max(b_i)$。$b’$同理。<br>那么就有$\max b_i=\max_{i\in[1,l]\bigcup[r,n]}\{b_i\}$。$b’$同理。<br>显然同时翻转这两个区间，$\max b_i\geq\max b’_i$。证毕。</p>
+<p>综上，我们二分答案$ans$，然后取$t$为使得$a_t$最大的位置中最左位置和最右位置，取$cnt=a_t-ans$或$a_t-(ans-1)$，用数据结构贪心检验一下就好了。<br>时间复杂度$O(n\log^2n)$。</p>
+<hr>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;climits&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cctype&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x=<span class="number">0</span>,f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">char</span> ch=getchar();</span><br><span class="line">	<span class="keyword">while</span> (!<span class="built_in">isdigit</span>(ch)) f=ch==<span class="string">'-'</span>?<span class="number">-1</span>:f,ch=getchar();</span><br><span class="line">	<span class="keyword">while</span> (<span class="built_in">isdigit</span>(ch)) x=x*<span class="number">10</span>+ch-<span class="string">'0'</span>,ch=getchar();</span><br><span class="line">	<span class="keyword">return</span> x*f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt; P;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> mkp(a,b) make_pair(a,b)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ft first</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> sd second</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> LL INF=LLONG_MAX;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">200005</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> M=<span class="number">100005</span>;</span><br><span class="line"></span><br><span class="line">LL tag[N],need[N],sum[N];</span><br><span class="line"><span class="keyword">int</span> a[M],b[M],c[M];</span><br><span class="line"><span class="keyword">int</span> n,m,la,ra;</span><br><span class="line">LL mx;</span><br><span class="line"></span><br><span class="line">priority_queue&lt;P&gt; q;</span><br><span class="line"><span class="built_in">vector</span>&lt;P&gt; range[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">check</span><span class="params">(LL rvs,<span class="keyword">int</span> t,LL lim)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (rvs&gt;lim) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;t;++i) need[i]=max(sum[i]+rvs-lim+<span class="number">1</span>&gt;&gt;<span class="number">1</span>,<span class="number">0l</span>l);</span><br><span class="line">	need[t]=rvs;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) range[i].clear(),tag[i]=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (;!q.empty();q.pop());</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;++i) <span class="keyword">if</span> (a[i]&lt;=t&amp;&amp;b[i]&gt;t) range[a[i]].push_back(mkp(b[i],c[i]));</span><br><span class="line">	LL cur=<span class="number">0</span>,tmp;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=t;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">auto</span> rg:range[i]) q.push(rg);</span><br><span class="line">		<span class="keyword">for</span> (tmp=need[i]-cur;tmp&gt;<span class="number">0</span>&amp;&amp;!q.empty();)</span><br><span class="line">		&#123;</span><br><span class="line">			P rg=q.top();q.pop();</span><br><span class="line">			<span class="keyword">if</span> (tmp&lt;rg.sd) cur+=tmp,rg.sd-=tmp,q.push(rg),tag[t]-=tmp,tag[rg.ft]+=tmp&lt;&lt;<span class="number">1</span>,tag[n]-=tmp,tmp=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">else</span> cur+=rg.sd,tag[t]-=rg.sd,tag[rg.ft]+=rg.sd&lt;&lt;<span class="number">1</span>,tag[n]-=rg.sd,tmp-=rg.sd;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (tmp&gt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=t+<span class="number">1</span>;i&lt;=n;++i) <span class="keyword">if</span> ((tag[i]+=tag[i<span class="number">-1</span>])+sum[i]&gt;lim) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">judge</span><span class="params">(LL lim)</span></span>&#123;<span class="keyword">return</span> check(mx-lim,la,lim)||check(mx-lim+<span class="number">1</span>,la,lim)||check(mx-lim,ra,lim)||check(mx-lim+<span class="number">1</span>,ra,lim);&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">LL <span class="title">binary_search</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	LL l=<span class="number">0</span>,r=mx<span class="number">-1</span>,ret=mx;</span><br><span class="line">	<span class="keyword">for</span> (LL mid;l&lt;=r;)</span><br><span class="line">	&#123;</span><br><span class="line">		mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">if</span> (judge(mid)) r=(ret=mid)<span class="number">-1</span>;</span><br><span class="line">		<span class="keyword">else</span> l=mid+<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	freopen(<span class="string">"tickets.in"</span>,<span class="string">"r"</span>,<span class="built_in">stdin</span>),freopen(<span class="string">"tickets.out"</span>,<span class="string">"w"</span>,<span class="built_in">stdout</span>);</span><br><span class="line">	n=read(),m=read();</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		a[i]=read(),b[i]=read(),c[i]=read();</span><br><span class="line">		<span class="keyword">if</span> (a[i]&gt;b[i]) swap(a[i],b[i]);</span><br><span class="line">		sum[a[i]]+=c[i],sum[b[i]]-=c[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) sum[i]+=sum[i<span class="number">-1</span>];</span><br><span class="line">	mx=-INF;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) mx=max(sum[i],mx);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">		<span class="keyword">if</span> (sum[i]==mx)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (!la) la=i;</span><br><span class="line">			ra=i;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,binary_search());</span><br><span class="line">	fclose(<span class="built_in">stdin</span>),fclose(<span class="built_in">stdout</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/贪心/" rel="tag"># 贪心</a>
+          
+            <a href="/tags/二分法/" rel="tag"># 二分法</a>
+          
+            <a href="/tags/JOI/" rel="tag"># JOI</a>
+          
+            <a href="/tags/定理题/" rel="tag"># 定理题</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/01/topcoder-tco14-semifinal2-div1-hard/" rel="next" title="2014 TCO Semifinal 2 Division I Hard TwiceTwiceTree">
+                <i class="fa fa-chevron-left"></i> 2014 TCO Semifinal 2 Division I Hard TwiceTwiceTree
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/12/codechef-BINOMSUM/" rel="prev" title="CodeChef BINOMSUM">
+                CodeChef BINOMSUM <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTYwMi84MTY2"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/avatar.jpg"
+                alt="crazy_cloud" />
+            
+              <p class="site-author-name" itemprop="name">crazy_cloud</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/acrazyczy" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:a_crazy_czy@yahoo.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/crazy_cloud/activities" target="_blank" title="知乎">
+                    
+                      <i class="fa fa-fw fa-globe"></i>知乎</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.quora.com/profile/ZiYi-Cai-2" target="_blank" title="Quora">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Quora</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/werkeytom_ftd" title="Werkeytom_FTD" target="_blank">Werkeytom_FTD</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/samjia2000" title="Samjia2000" target="_blank">Samjia2000</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/worldwide_d" title="WorldWide_D" target="_blank">WorldWide_D</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/drin_e" title="Drin_E" target="_blank">Drin_E</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/zltjohn" title="ZLTJohn" target="_blank">ZLTJohn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/yxuanwkeith" title="Yxuanwkeith" target="_blank">Yxuanwkeith</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://l0nl1f3.github.io/" title="l0nl1f3" target="_blank">l0nl1f3</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://sakits.com/" title="Sakits" target="_blank">Sakits</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目大意"><span class="nav-number">1.</span> <span class="nav-text">题目大意</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#题目分析"><span class="nav-number">2.</span> <span class="nav-text">题目分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#O-mn-2-log-2n-（保证-c-i-1-）"><span class="nav-number">2.1.</span> <span class="nav-text">$O(mn^2\log^2n)$（保证$c_i=1$）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#O-n-2-log-2n"><span class="nav-number">2.2.</span> <span class="nav-text">$O(n^2\log^2n)$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#O-n-log-2n"><span class="nav-number">2.3.</span> <span class="nav-text">$O(n\log^2n)$</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码实现"><span class="nav-number">3.</span> <span class="nav-text">代码实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">crazy_cloud</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
