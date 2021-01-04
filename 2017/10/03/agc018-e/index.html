@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Open Sans:300,300italic,400,400italic,700,700italic|Open Sans:300,300italic,400,400italic,700,700italic|Open Sans:300,300italic,400,400italic,700,700italic|Open Sans:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="AtCoder,计数类问题,组合数," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="crazy_cloud's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="题目大意给定三个在平面直角坐标系的第一象限上矩形$[x_1,y_1][x_2,y_2],[x_3,y_3][x_4,y_4],[x_5,y_5][x_6,y_6]$。你要从第一个矩形内选出一个整点作为起始点，第二个中选出一个中转点，第三个中选出一个结束点，然后从起始点开始不断向上或右走，经过中转点最后到结束点。求不同的路径的总数量。两条路径不同当且仅当它们的起始/中转/结束点存在不同或者路线不一样">
+<meta name="keywords" content="AtCoder,计数类问题,组合数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AGC018-E Sightseeing Plan">
+<meta property="og:url" content="http://yoursite.com/2017/10/03/agc018-e/index.html">
+<meta property="og:site_name" content="crazy_cloud&#39;s Blog">
+<meta property="og:description" content="题目大意给定三个在平面直角坐标系的第一象限上矩形$[x_1,y_1][x_2,y_2],[x_3,y_3][x_4,y_4],[x_5,y_5][x_6,y_6]$。你要从第一个矩形内选出一个整点作为起始点，第二个中选出一个中转点，第三个中选出一个结束点，然后从起始点开始不断向上或右走，经过中转点最后到结束点。求不同的路径的总数量。两条路径不同当且仅当它们的起始/中转/结束点存在不同或者路线不一样">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-27T08:33:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AGC018-E Sightseeing Plan">
+<meta name="twitter:description" content="题目大意给定三个在平面直角坐标系的第一象限上矩形$[x_1,y_1][x_2,y_2],[x_3,y_3][x_4,y_4],[x_5,y_5][x_6,y_6]$。你要从第一个矩形内选出一个整点作为起始点，第二个中选出一个中转点，第三个中选出一个结束点，然后从起始点开始不断向上或右走，经过中转点最后到结束点。求不同的路径的总数量。两条路径不同当且仅当它们的起始/中转/结束点存在不同或者路线不一样">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/03/agc018-e/"/>
+
+
+
+
+
+  <title>AGC018-E Sightseeing Plan | crazy_cloud's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2a8fb229cfadc067d24ffa6905260b02";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">crazy_cloud's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/03/agc018-e/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="crazy_cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="crazy_cloud's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">AGC018-E Sightseeing Plan</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-03T20:01:18+08:00">
+                2017-10-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/解题报告/" itemprop="url" rel="index">
+                    <span itemprop="name">解题报告</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="题目大意"><a href="#题目大意" class="headerlink" title="题目大意"></a>题目大意</h1><p>给定三个在平面直角坐标系的第一象限上矩形$[x_1,y_1][x_2,y_2],[x_3,y_3][x_4,y_4],[x_5,y_5][x_6,y_6]$。<br>你要从第一个矩形内选出一个整点作为起始点，第二个中选出一个中转点，第三个中选出一个结束点，然后从起始点开始不断向上或右走，经过中转点最后到结束点。求不同的路径的总数量。<br>两条路径不同当且仅当它们的起始/中转/结束点存在不同或者路线不一样。</p>
+<p>$1\leq x_1\lt x_2\lt x_3\lt x_4\lt x_5\lt x_6\leq10^6,1\leq y_1\lt y_2\lt y_3\lt y_4\lt y_5\lt y_6\leq10^6$<br><a id="more"></a></p>
+<hr>
+<h1 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h1><p>题目的条件太多了，考虑简化题目。<br>令$C(x,y)$表示从$(0,0)$走到$(x,y)$的方案，我们考虑一条简单的式子：<br>$$<br>\sum_{y=0}^Y{C(X,y)}=C(X+1,Y)<br>$$<br>这个相信大家都会。<br>再考虑使用两次将其扩展到二维的情况。<br>$$<br>\sum_{x=0}^X\sum_{y=0}^Y{C(x,y)}=C(X+1,Y+1)-1<br>$$<br>使用二维差分将其推广到对于一个一般的矩形的情况。<br>$$<br>\sum_{x=X_1}^{X_2}\sum_{y=Y_1}^{Y_2}{C(x,y)}=C(X_2+1,Y_2+1)-C(X_2+1,Y_1)-C(X_1,Y_2+1)+C(X_1,Y_1)<br>$$<br>由这条式子，我们可以看出，统计从一个点一直到一个矩形内所有点的方案数的问题，其实可以变成统计一个点到矩形四角上四个点的方案数问题。<br>考虑枚举第一个矩形的四个关键点之一，第三个矩形的关键点之一，然后对第二个矩形进行计算，现在问题是给定左下角和右上角的起点和终点，求经过矩形中每一个点的路径方案数的和。<br>可以发现，一条路径如果和矩形有$len$长度的相交，那么它对答案的贡献就要乘上$len$的系数。而这个$len$的数值可以由路径进入矩形的位置和离开矩形的位置来决定，具体而言，是两个$x$坐标的差加上两个$y$坐标的差。<br>考虑将路径贡献拆开来，枚举进入/离开矩形的位置，然后用路径总数乘上相应的系数（坐标之和，符号由进入/退出决定）加到答案里面。<br>最后的时间复杂度是$O(maxX+maxY)$。<br>感觉很妙啊。</p>
+<hr>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> P=<span class="number">1000000007</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">2000000</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">int</span> fact[N+<span class="number">5</span>],invf[N+<span class="number">5</span>];</span><br><span class="line"><span class="keyword">int</span> f[<span class="number">4</span>][<span class="number">3</span>],g[<span class="number">4</span>][<span class="number">3</span>];</span><br><span class="line"><span class="keyword">int</span> X1,X2,X3,X4,X5,X6,Y1,Y2,Y3,Y4,Y5,Y6,ans;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">C</span><span class="params">(<span class="keyword">int</span> n,<span class="keyword">int</span> m)</span></span>&#123;<span class="keyword">return</span> <span class="number">1l</span>l*fact[n+m]*invf[n]%P*invf[m]%P;&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> &amp;x,<span class="keyword">int</span> y)</span></span>&#123;(x+=y)%=P;&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">quick_power</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ret=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span> (;y;y&gt;&gt;=<span class="number">1</span>,x=<span class="number">1l</span>l*x*x%P) <span class="keyword">if</span> (y&amp;<span class="number">1</span>) ret=<span class="number">1l</span>l*ret*x%P;</span><br><span class="line">	<span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pre</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	fact[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=N;++i) fact[i]=<span class="number">1l</span>l*fact[i<span class="number">-1</span>]*i%P;</span><br><span class="line">	invf[N]=quick_power(fact[N],P<span class="number">-2</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=N;i&gt;=<span class="number">1</span>;--i) invf[i<span class="number">-1</span>]=<span class="number">1l</span>l*invf[i]*i%P;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">calc</span><span class="params">(<span class="keyword">int</span> x1,<span class="keyword">int</span> y1,<span class="keyword">int</span> sig1,<span class="keyword">int</span> x2,<span class="keyword">int</span> y2,<span class="keyword">int</span> sig2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ret=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> x=X3;x&lt;=X4;++x) add(ret,P<span class="number">-1l</span>l*C(x-x1,Y3<span class="number">-1</span>-y1)*(x+Y3)%P*C(x2-x,y2-Y3)%P),add(ret,<span class="number">1l</span>l*C(x2-x,y2-Y4<span class="number">-1</span>)*(x+Y4+<span class="number">1</span>)%P*C(x-x1,Y4-y1)%P);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> y=Y3;y&lt;=Y4;++y) add(ret,P<span class="number">-1l</span>l*C(y-y1,X3<span class="number">-1</span>-x1)*(y+X3)%P*C(y2-y,x2-X3)%P),add(ret,<span class="number">1l</span>l*C(y2-y,x2-X4<span class="number">-1</span>)*(y+X4+<span class="number">1</span>)%P*C(y-y1,X4-x1)%P);</span><br><span class="line">	<span class="keyword">return</span> ((ret*=sig1*sig2)+=P)%=P;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	pre();</span><br><span class="line">	freopen(<span class="string">"sightseeing.in"</span>,<span class="string">"r"</span>,<span class="built_in">stdin</span>),freopen(<span class="string">"sightseeing.out"</span>,<span class="string">"w"</span>,<span class="built_in">stdout</span>);</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d%d%d%d%d%d"</span>,&amp;X1,&amp;X2,&amp;X3,&amp;X4,&amp;X5,&amp;X6),<span class="built_in">scanf</span>(<span class="string">"%d%d%d%d%d%d"</span>,&amp;Y1,&amp;Y2,&amp;Y3,&amp;Y4,&amp;Y5,&amp;Y6),ans=<span class="number">0</span>;</span><br><span class="line">	f[<span class="number">0</span>][<span class="number">0</span>]=<span class="number">1</span>,f[<span class="number">0</span>][<span class="number">1</span>]=X1<span class="number">-1</span>,f[<span class="number">0</span>][<span class="number">2</span>]=Y1<span class="number">-1</span>;</span><br><span class="line">	f[<span class="number">1</span>][<span class="number">0</span>]=<span class="number">-1</span>,f[<span class="number">1</span>][<span class="number">1</span>]=X1<span class="number">-1</span>,f[<span class="number">1</span>][<span class="number">2</span>]=Y2;</span><br><span class="line">	f[<span class="number">2</span>][<span class="number">0</span>]=<span class="number">-1</span>,f[<span class="number">2</span>][<span class="number">1</span>]=X2,f[<span class="number">2</span>][<span class="number">2</span>]=Y1<span class="number">-1</span>;</span><br><span class="line">	f[<span class="number">3</span>][<span class="number">0</span>]=<span class="number">1</span>,f[<span class="number">3</span>][<span class="number">1</span>]=X2,f[<span class="number">3</span>][<span class="number">2</span>]=Y2;</span><br><span class="line">	g[<span class="number">0</span>][<span class="number">0</span>]=<span class="number">1</span>,g[<span class="number">0</span>][<span class="number">1</span>]=X6+<span class="number">1</span>,g[<span class="number">0</span>][<span class="number">2</span>]=Y6+<span class="number">1</span>;</span><br><span class="line">	g[<span class="number">1</span>][<span class="number">0</span>]=<span class="number">-1</span>,g[<span class="number">1</span>][<span class="number">1</span>]=X6+<span class="number">1</span>,g[<span class="number">1</span>][<span class="number">2</span>]=Y5;</span><br><span class="line">	g[<span class="number">2</span>][<span class="number">0</span>]=<span class="number">-1</span>,g[<span class="number">2</span>][<span class="number">1</span>]=X5,g[<span class="number">2</span>][<span class="number">2</span>]=Y6+<span class="number">1</span>;</span><br><span class="line">	g[<span class="number">3</span>][<span class="number">0</span>]=<span class="number">1</span>,g[<span class="number">3</span>][<span class="number">1</span>]=X5,g[<span class="number">3</span>][<span class="number">2</span>]=Y5;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;++i)</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;<span class="number">4</span>;++j)</span><br><span class="line">			add(ans,calc(f[i][<span class="number">1</span>],f[i][<span class="number">2</span>],f[i][<span class="number">0</span>],g[j][<span class="number">1</span>],g[j][<span class="number">2</span>],g[j][<span class="number">0</span>]));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans);</span><br><span class="line">	fclose(<span class="built_in">stdin</span>),fclose(<span class="built_in">stdout</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AtCoder/" rel="tag"># AtCoder</a>
+          
+            <a href="/tags/计数类问题/" rel="tag"># 计数类问题</a>
+          
+            <a href="/tags/组合数/" rel="tag"># 组合数</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/01/hdu5511/" rel="next" title="HDU5511 Minimum Cut-Cut">
+                <i class="fa fa-chevron-left"></i> HDU5511 Minimum Cut-Cut
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/06/codechef-SEAARC/" rel="prev" title="CodeChef SEAARC">
+                CodeChef SEAARC <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTYwMi84MTY2"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/avatar.jpg"
+                alt="crazy_cloud" />
+            
+              <p class="site-author-name" itemprop="name">crazy_cloud</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/acrazyczy" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:a_crazy_czy@yahoo.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/crazy_cloud/activities" target="_blank" title="知乎">
+                    
+                      <i class="fa fa-fw fa-globe"></i>知乎</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.quora.com/profile/ZiYi-Cai-2" target="_blank" title="Quora">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Quora</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/werkeytom_ftd" title="Werkeytom_FTD" target="_blank">Werkeytom_FTD</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/samjia2000" title="Samjia2000" target="_blank">Samjia2000</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/worldwide_d" title="WorldWide_D" target="_blank">WorldWide_D</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/drin_e" title="Drin_E" target="_blank">Drin_E</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/zltjohn" title="ZLTJohn" target="_blank">ZLTJohn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/yxuanwkeith" title="Yxuanwkeith" target="_blank">Yxuanwkeith</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://l0nl1f3.github.io/" title="l0nl1f3" target="_blank">l0nl1f3</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://sakits.com/" title="Sakits" target="_blank">Sakits</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目大意"><span class="nav-number">1.</span> <span class="nav-text">题目大意</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#题目分析"><span class="nav-number">2.</span> <span class="nav-text">题目分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码实现"><span class="nav-number">3.</span> <span class="nav-text">代码实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">crazy_cloud</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Open Sans:300,300italic,400,400italic,700,700italic|Open Sans:300,300italic,400,400italic,700,700italic|Open Sans:300,300italic,400,400italic,700,700italic|Open Sans:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="矩阵,FFT/NTT/FWT,构造,数论,原根," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="crazy_cloud's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="简介Fast Walsh-Hadamard Transform(FWT)是用来解决一类二($K$)进制运算卷积问题的快速算法，可以理解为每一维大小为$2$($K$)的高维快速傅里叶变换。这类问题的一般形式是，给定$A$和$B$，求出$C$满足：$$C_i=\sum_{j\otimes k=i}A_jB_k$$其中$\otimes$是一种二($K$)进制运算。本文将从回顾FFT开始，深入理解FFT的">
+<meta name="keywords" content="矩阵,FFT&#x2F;NTT&#x2F;FWT,构造,数论,原根">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fast Walsh-Hadamard Transform (in Base $K$)">
+<meta property="og:url" content="http://yoursite.com/2017/10/21/fast-Walsh-Hadamard-transform/index.html">
+<meta property="og:site_name" content="crazy_cloud&#39;s Blog">
+<meta property="og:description" content="简介Fast Walsh-Hadamard Transform(FWT)是用来解决一类二($K$)进制运算卷积问题的快速算法，可以理解为每一维大小为$2$($K$)的高维快速傅里叶变换。这类问题的一般形式是，给定$A$和$B$，求出$C$满足：$$C_i=\sum_{j\otimes k=i}A_jB_k$$其中$\otimes$是一种二($K$)进制运算。本文将从回顾FFT开始，深入理解FFT的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-02T08:15:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fast Walsh-Hadamard Transform (in Base $K$)">
+<meta name="twitter:description" content="简介Fast Walsh-Hadamard Transform(FWT)是用来解决一类二($K$)进制运算卷积问题的快速算法，可以理解为每一维大小为$2$($K$)的高维快速傅里叶变换。这类问题的一般形式是，给定$A$和$B$，求出$C$满足：$$C_i=\sum_{j\otimes k=i}A_jB_k$$其中$\otimes$是一种二($K$)进制运算。本文将从回顾FFT开始，深入理解FFT的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/21/fast-Walsh-Hadamard-transform/"/>
+
+
+
+
+
+  <title>Fast Walsh-Hadamard Transform (in Base $K$) | crazy_cloud's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2a8fb229cfadc067d24ffa6905260b02";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">crazy_cloud's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/21/fast-Walsh-Hadamard-transform/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="crazy_cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="crazy_cloud's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Fast Walsh-Hadamard Transform (in Base $K$)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-21T15:52:27+08:00">
+                2017-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习小记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习小记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Fast Walsh-Hadamard Transform(FWT)是用来解决一类二($K$)进制运算卷积问题的快速算法，可以理解为每一维大小为$2$($K$)的高维快速傅里叶变换。这类问题的一般形式是，给定$A$和$B$，求出$C$满足：<br>$$<br>C_i=\sum_{j\otimes k=i}A_jB_k<br>$$其中$\otimes$是一种二($K$)进制运算。<br>本文将从回顾FFT开始，深入理解FFT的原理，然后再引出二进制的FWT。讨论FWT时，我们先会介绍$or$和$and$运算卷积两种较为简单的情况，然后进一步介绍$xor$的复杂情况。最后我们会将$xor$运算卷积推广至$K$进制的情况。<br><a id="more"></a></p>
+<hr>
+<h1 id="FFT原理"><a href="#FFT原理" class="headerlink" title="FFT原理"></a>FFT原理</h1><p>笔者之前在学习FFT的时候，存在一个理解误区，就是以为FFT实质上就是一种用来解决多项式乘法的特殊插值法：将$\omega_n^0…\omega_n^{n-1}$这个$n$个主$n$次单位复数根代入求点值，然后插值回来。实质上，我们知道多项式乘法得到的多项式次数界是相乘两个多项式之和的规模，如果用来求点值的数只有相乘多项式的次数界个数，怎么可能求得积的多项式呢？<br>相信天机清妙的读者都知道笔者犯了一个概念性错误，FFT实质上并不是在直接求解多项式相乘，它实质上是在做一个循环卷积，溢出的次数会自动累加到其模次数界对应的位置上。<br>为什么FFT是循环卷积呢？我们令$DFT(A)_i$表示$A$这个多项式在$\omega_n^i$处的点值，那么FFT的实质上是依赖于这样一个原理：<br>
+$$
+DFT(A)_xDFT(B)_x=DFT(C)_x
+$$令$\omega=\omega_n^x$，我们将这条式子展开：<br>
+$$
+\begin{align}
+\sum_{i=0}^{n-1}A_i\omega^i\sum_{j=0}^{n-1}B_j\omega^j&=\sum_{k=0}^{n-1}C_k\omega^k\\
+&=\sum_{k=0}^{n-1}\sum_{(i+j)\ \mathrm{mod}\ n=k}A_iB_j\omega^k
+\end{align}
+$$
+为了使对应项系数恒相等，我们需要有$\omega^i\omega^j=\omega^k$。<br>由于我们选择的是主$n$次单位复数根，正好$\omega^i\omega^j=\omega^{i+j}=\omega_n^{(i+j)x}=\omega_n^{kx}=\omega^k$。<br>这就是FFT算法的一个重要依据。</p>
+<hr>
+<h1 id="快速变换的一般思路"><a href="#快速变换的一般思路" class="headerlink" title="快速变换的一般思路"></a>快速变换的一般思路</h1><p>有了上面FFT算法的思路，我们来考虑快速卷积运算的一般思路<br>定义二元函数$f(i,j)$，定义<br>$$<br>trans(A)<em>i=\sum</em>{j=0}^{n-1}A_jf(i,j)<br>$$我们需要针对给定运算的规律，构造函数$f$使其满足<br>
+$$
+trans(A)_xtrans(B)_x=trans(C)_x
+$$在FFT中，我们选择了主$n$次单位复数根：$f(i,j)=\omega_n^{ij}$。</p>
+<p>当然了，这个$f$函数当然不只是能够满足上面条件就够了，还要方便我计算，不然在时间复杂度上就没有任何改观了。在FFT中，$n$个主$n$次复数单位根的平方本质上恰好是$n/2$个主$n/2$次单位复数根，于是就可以通过分治策略将时间复杂度降至$O(n\log n)$。但是不同运算有不同的性质，对于快速计算的方法我们必须具体情况具体分析。</p>
+<hr>
+<h1 id="FWT原理"><a href="#FWT原理" class="headerlink" title="FWT原理"></a>FWT原理</h1><p>我们先讨论二进制的情况。</p>
+<h2 id="或运算、与运算卷积"><a href="#或运算、与运算卷积" class="headerlink" title="或运算、与运算卷积"></a>或运算、与运算卷积</h2><p>首先构造函数$f$使其满足上面所讲的式子。<br>注意到一组比较显然的事实：<br>$$<br>\begin{align}<br>i\ \mathrm{or}\ k=k,j\ \mathrm{or}\ k=k&amp;\Rightarrow \left(i\ \mathrm{or}\ j\right)\ \mathrm{or}\ k=k\<br>i\ \mathrm{and}\ k=k,j\ \mathrm{and}\ k=k&amp;\Rightarrow \left(i\ \mathrm{and}\ j\right)\ \mathrm{and}\ k=k<br>\end{align}<br>$$对于与运算，我们定义$f(i,j)=[i\ \mathrm{and}\ j=i]$；对于或运算我们定义$f(i,j)=[i\ \mathrm{and}\ j=j]$。容易验证，这样的$f$可以满足之前的式子。<br>考虑如何计算这个东西？其实它的本质就是给定$\{a_n\}$，让你计算$\{b_n\}$满足<br>$$<br>b_i=\sum_{i\subseteq j}a_j<br>$$或者<br>$$<br>b_i=\sum_{j\subseteq i}a_i<br>$$这是一个很经典的问题。既然是二进制运算，我们就考虑按位分治。<br>假设我们现在要算出$[l,r)$区间的答案，$[l,mid)$区间二进制首位都是$0$，$[mid,r)$区间二进制首位都为$1$。而右区间的某个数相比左区间的对应位置的二进制（在当前考虑的这么多位二进制下）只是在最高位多了$1$，也就是说左边那个状态是右边的子集。然后我们就可以相应地把右（左）边的值加到左（右）边。<br>这样我们就可以在$O(n\log n)$的时间复杂度下完成FWT的正过程(DWT)，那么怎么做逆过程(IDWT)呢？很简单，正过程的时候我们是把其中一项加到另一项，逆过来的时候我们对应地将一项减去另一项就可以解出来了，大家可以自己推算一下。那我们要不要严格按照正过程的倒序（也就是先计算当前区间再递归两边）来执行呢？其实不用，因为这样我只不过是在逆过程时将高低位颠倒考虑而已，对最后结果没有影响，也就是我们只需要在正过程上稍加改动罢了。<br>总的时间复杂度就是$O(n\log n)$的。注意到这个过程只有加减运算，因此在模意义下也不受模数限制。</p>
+<p>代码实现：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DWT</span><span class="params">(<span class="keyword">int</span> *a,<span class="keyword">int</span> sig)</span>  <span class="comment">//sig:1(DWT)/-1(IDWT)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> l=<span class="number">2</span>;l&lt;=n;l&lt;&lt;=<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>,h=l&gt;&gt;<span class="number">1</span>;i&lt;n;i+=l)</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;h;++j)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">int</span> u=a[i+j],v=a[i+j+h];</span><br><span class="line">				<span class="comment">//and: a[i+j]=u+v*sig;</span></span><br><span class="line">				<span class="comment">//or: a[i+j+d]=v+u*sig;</span></span><br><span class="line">			&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="异或卷积"><a href="#异或卷积" class="headerlink" title="异或卷积"></a>异或卷积</h2><p>终于说到本博客的重点：异或卷积。异或卷积相比其它卷积构造相对复杂一些，但实现起来也是差不多的。<br>异或运算的$f$基于这样一个事实：我们令$bitcount(s)$表示$s$的二进制状态中$1$的个数，那么一定有$bitcount(i\ \mathrm{and}\ k)$的奇偶性异或$bitcount(j\ \mathrm{and}\ k)$的奇偶性等于$bitcount\left((i\ \mathrm{xor}\ j)\ \mathrm{and}\ k\right)$的奇偶性。<br>于是我们定义$f(i,j)=(-1)^{bitcount(i\ \mathrm{and}\ j)}$，这样我们的$f$就满足要求了。<br>这个东西怎么快速计算呢？依然按位考虑，我们令$f_0$表示一个元素在$[l,mid)$中对应位置的值，$f_1$表示在$[mid,r)$区间中对应位置的值。对于一个位于$[l,mid)$的元素，那么它的$f$显然等于$f_0+f_1$，因为它最高位加入的数是$0$，所以不论原本的值来自那一边，都不会影响奇偶性。而位于$[mid,r)$的元素就是$f=f_0-f_1$，因为在右半边两个二进制最高位都加入了$1$，会导致奇偶性变化，而左边就不会。<br>至于逆变换，考虑到我们相当于知道了$a+b$和$a-b$，那么只需要简单的加减消元即可以解出两个值。<br>时间复杂度是$O(n\log n)$的。注意到这个过程虽然有除以$2$的运算，但是即使题目要求对一个一般的数取模，在通常情况下我们还是可以消除它的影响。因为$\frac xa\ \mathrm{mod}\ p=\frac{x\ \mathrm{mod}\ pa}a$，我们直接将模数乘上次数界（也就是$2$的某次幂），在做逆过程的时候不除$2$，最后将答案除以次数界就好了。<br>时间复杂度$O(n\log n)$。</p>
+<p>代码实现（没有了除以$2$正逆变换没有区别）：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DWT</span><span class="params">(<span class="keyword">int</span> *a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> l=<span class="number">2</span>;l&lt;=n;l&lt;&lt;=<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>,h=l&gt;&gt;<span class="number">1</span>;i&lt;n;i+=l)</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;h;++j)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">int</span> u=a[i+j],v=a[i+j+h];</span><br><span class="line">				a[i+j]=u+v,a[i+j+h]=u-v;</span><br><span class="line">			&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="K-进制下的异或卷积"><a href="#K-进制下的异或卷积" class="headerlink" title="$K$进制下的异或卷积"></a>$K$进制下的异或卷积</h2><p>考虑沿袭二进制下的思路，对于二进制我们定义了$f(i,j)=(-1)^{bitcount(i\ \mathrm{and}\ j)}$。现在我们考虑一下这个东西在推广以后的本质，其实这里面的$\mathrm{and}$就是$K$进制下的不进位乘法，所谓$bitcount(s)$其实就是将所有的位加起来对$K$取模。然后我们希望能有一个相关的特征性的函数$g$，能体现出这$K$个可能的取值，满足$g(i)g(j)=g\left((i+j)\ \mathrm{mod} K\right)$。<br>相信大家都发现FFT中的主$n$次单位复数根可以胜任此位，也就是我们令$\omega$为主$K$次单位复数根，那么$g(i)=\omega^i$，也就是$f(i,j)=\omega^{bitcount_k(i\ \mathrm{and}_k\ j)}$。<br>那我们这样怎么快速做正变换呢？和二进制其实是类似的，对于区间$[l,r)$，我们按照最高位将其分成$K$个长度相等的区间，然后考虑在这些区间中位于同样对应位置的数。<br>假设这些数是$F_0,F_1,…,F_{K-2},F_{K-1}$，假设我们要的值是$f_0,f_1,…,f_{K-2},f_{K-1}$，那么就有<br>$$<br>f_i=\sum_{j=0}^{K-1}F_j\omega^{ij}<br>$$逆变换怎么做呢？我们考虑对于一个分治区间，实质上我们进行的是类似FFT过程的一个矩阵乘法：<br>$$<br>\begin{pmatrix}<br>1 &amp; 1 &amp; 1 &amp; \cdots &amp; 1 \<br>1 &amp; \omega &amp; \omega^2 &amp; \cdots &amp; \omega^{K-1} \<br>1 &amp; \omega^2 &amp; \omega^4 &amp; \cdots &amp; \omega^{2(K-1)} \<br>\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \<br>1 &amp; \omega^{K-1} &amp; \omega^{(K-1)2} &amp; \cdots &amp; \omega^{(K-1)(K-1)}<br>\end{pmatrix}\begin{pmatrix}<br>F_0\<br>F_1\<br>F_2\<br>\vdots\<br>F_{K-1}<br>\end{pmatrix}=\begin{pmatrix}<br>f_0\<br>f_1\<br>f_2\<br>\vdots\<br>f_{K-1}<br>\end{pmatrix}<br>$$我们只需要在等式两边左乘一个系数矩阵的逆矩阵就好了，学过FFT的都知道，根据求和引理可以验证逆矩阵：<br>$$<br>\begin{pmatrix}<br>\frac 1K &amp; \frac 1K &amp; \frac 1K &amp; \cdots &amp; \frac 1K \<br>\frac 1K &amp; \frac{\omega^{-1}}K &amp; \frac{\omega^{-2}}K &amp; \cdots &amp; \frac{\omega^{-(K-1)}}K \<br>\frac 1K &amp; \frac{\omega^{-2}}K &amp; \frac{\omega^{-4}}K &amp; \cdots &amp; \frac{\omega^{-2(K-1)}}K \<br>\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \<br>\frac 1K &amp; \frac{\omega^{-(K-1)}}K &amp; \frac{\omega^{-(K-1)2}}K &amp; \cdots &amp; \frac{\omega^{-(K-1)(K-1)}}K<br>\end{pmatrix}<br>$$因此我们在逆过程的时候只需要把次幂取相反数，最后再除去次数界就好了。<br>相信看到这里大家都明白为什么说“（$K$进制下）FWT为每一维大小为$2$($K$)的高维快速傅里叶变换了”。<br>可以用类似的实现过程，复杂度是$T(n)=KT\left(\frac nK\right)+O(Kn)$，即$O(Kn\log_K n)$。</p>
+<p>对于（对质数）取模的情况，我们考虑原根$g$。显然类似NTT那样取$\omega=g^{\frac{P-1}K}$，就可以做到主$K$次单位复数根的效果。不过这样做比起NTT对模数的要求就还要更苛刻一些了，它必须是$K$的某一个倍数加$1$。$330301441$这个质数是能够对$10$以内的所有$K$做$K$进制异或卷积的。</p>
+<p>代码实现（这次贴一个比较完整的）：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DWT</span><span class="params">(<span class="keyword">int</span> *a,<span class="keyword">int</span> sig)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> l=K;l&lt;=len;l*=K)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) b[i]=a[i];</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>,h=l/K;i&lt;len;i+=l)</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;h;++j)</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;K;++k)</span><br><span class="line">				&#123;</span><br><span class="line">					a[i+j+k*h]=<span class="number">0</span>;</span><br><span class="line">					<span class="keyword">for</span> (<span class="keyword">int</span> k_=<span class="number">0</span>;k_&lt;K;++k_) (a[i+j+k*h]+=<span class="number">1l</span>l*b[i+j+k_*h]*POW[(k*k_%K*sig+K)%K]%P)%=P;</span><br><span class="line">				&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">calc</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (len=<span class="number">1</span>;len&lt;=mx;len*=K);</span><br><span class="line">	POW[<span class="number">0</span>]=<span class="number">1</span>,omega=quick_power(G,(P<span class="number">-1</span>)/K);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=K;++i) POW[i]=<span class="number">1l</span>l*POW[i<span class="number">-1</span>]*omega%P;</span><br><span class="line">	DWT(A,<span class="number">1</span>),DWT(B,<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=<span class="number">1l</span>l*A[i]*B[i]%P;</span><br><span class="line">	DWT(C,<span class="number">-1</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>,inv=quick_power(len,P<span class="number">-2</span>);i&lt;len;++i) C[i]=<span class="number">1l</span>l*C[i]*inv%P;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这次笔者是为了做掉CC October Long Challenge 2017里面的那一道<a href="https://www.codechef.com/problems/XORTREEH" target="_blank" rel="noopener">XORTREEH</a>才突击学习一下FWT的，收获还挺大的，首先纠正了自己对FFT的错误认识，其次对于这一类快速变换算法的基本原理有了更加深刻的理解。将二进制的异或卷积推广到$K$进制下的工作是笔者独立完成的，可以说是受益匪浅了，起码印象深刻以后都不怎么会忘记了，大家也可以试着自己搞一搞。<br><del>好久没有写过这么长的博客了……</del></p>
+<hr>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="http://blog.csdn.net/neither_nor/article/details/60335099" target="_blank" rel="noopener">neither_nor, FWT 详解 知识点</a><br><a href="http://www.cnblogs.com/y-clever/p/6875743.html" target="_blank" rel="noopener">_rqy, Fast Walsh-Hadamard Transform——快速沃尔什变换</a><br><a href="http://www.cnblogs.com/y-clever/p/6979925.html" target="_blank" rel="noopener">_rqy, Fast Walsh-Hadamard Transform——快速沃尔什变换（二）</a><br><a href="http://picks.logdown.com/posts/179290-fast-walsh-hadamard-transform" target="_blank" rel="noopener">Picks, Fast Walsh-Hadamard Transform</a><br>吕凯风, 集合幂级数的性质与应用及其快速算法, 2015年信息学奥林匹克中国国家队候选队员论文集</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/矩阵/" rel="tag"># 矩阵</a>
+          
+            <a href="/tags/FFT-NTT-FWT/" rel="tag"># FFT/NTT/FWT</a>
+          
+            <a href="/tags/构造/" rel="tag"># 构造</a>
+          
+            <a href="/tags/数论/" rel="tag"># 数论</a>
+          
+            <a href="/tags/原根/" rel="tag"># 原根</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/20/codechef-OCT17/" rel="next" title="CodeChef October Long Challenge 2017 Solutions">
+                <i class="fa fa-chevron-left"></i> CodeChef October Long Challenge 2017 Solutions
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/25/agc013-e/" rel="prev" title="AGC013-E Placing Squares">
+                AGC013-E Placing Squares <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTYwMi84MTY2"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/avatar.jpg"
+                alt="crazy_cloud" />
+            
+              <p class="site-author-name" itemprop="name">crazy_cloud</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/acrazyczy" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:a_crazy_czy@yahoo.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/crazy_cloud/activities" target="_blank" title="知乎">
+                    
+                      <i class="fa fa-fw fa-globe"></i>知乎</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.quora.com/profile/ZiYi-Cai-2" target="_blank" title="Quora">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Quora</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/werkeytom_ftd" title="Werkeytom_FTD" target="_blank">Werkeytom_FTD</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/samjia2000" title="Samjia2000" target="_blank">Samjia2000</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/worldwide_d" title="WorldWide_D" target="_blank">WorldWide_D</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/drin_e" title="Drin_E" target="_blank">Drin_E</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/zltjohn" title="ZLTJohn" target="_blank">ZLTJohn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.csdn.net/yxuanwkeith" title="Yxuanwkeith" target="_blank">Yxuanwkeith</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://l0nl1f3.github.io/" title="l0nl1f3" target="_blank">l0nl1f3</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://sakits.com/" title="Sakits" target="_blank">Sakits</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FFT原理"><span class="nav-number">2.</span> <span class="nav-text">FFT原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速变换的一般思路"><span class="nav-number">3.</span> <span class="nav-text">快速变换的一般思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FWT原理"><span class="nav-number">4.</span> <span class="nav-text">FWT原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#或运算、与运算卷积"><span class="nav-number">4.1.</span> <span class="nav-text">或运算、与运算卷积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异或卷积"><span class="nav-number">4.2.</span> <span class="nav-text">异或卷积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K-进制下的异或卷积"><span class="nav-number">4.3.</span> <span class="nav-text">$K$进制下的异或卷积</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">crazy_cloud</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
